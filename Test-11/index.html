@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness Rewards Telegram Mini-App</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+body {
+font-family: Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+margin: 0;
+background: linear-gradient(45deg, #3498db, #8e44ad);
+overflow: hidden;
+color: white;
+}
+
+.container {
+display: flex;
+flex-direction: column;
+gap: 20px;
+padding: 30px;
+border-radius: 20px;
+background: rgba(255, 255, 255, 0.1);
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+max-width: 90%;
+width: 300px;
+}
+
+@supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+.container {
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+}
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+.container {
+background: rgba(255, 255, 255, 0.7);
+}
+}
+
+h1 {
+text-align: center;
+margin-bottom: 20px;
+font-size: 24px;
+}
+
+.glass-button {
+padding: 15px 30px;
+border: none;
+border-radius: 50px;
+background: rgba(255, 255, 255, 0.2);
+color: white;
+font-size: 16px;
+font-weight: bold;
+text-transform: uppercase;
+letter-spacing: 1px;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+width: 100%;
+}
+
+@supports ((backdrop-filter: blur(5px)) or (-webkit-backdrop-filter: blur(5px))) {
+.glass-button {
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+}
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not ((backdrop-filter: blur(5px)) or (-webkit-backdrop-filter: blur(5px))) {
+.glass-button {
+background: rgba(255, 255, 255, 0.4);
+}
+}
+
+.glass-button:hover {
+background: rgba(255, 255, 255, 0.3);
+transform: translateY(-2px);
+box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.glass-button:active {
+transform: translateY(0);
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.glass-button.primary {
+background: rgba(52, 152, 219, 0.4);
+}
+
+.glass-button.secondary {
+background: rgba(142, 68, 173, 0.4);
+}
+
+.glass-button.success {
+background: rgba(46, 204, 113, 0.4);
+}
+
+.glass-button.danger {
+background: rgba(231, 76, 60, 0.4);
+}
+
+#status {
+text-align: center;
+margin-top: 20px;
+font-style: italic;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Fitness Rewards</h1>
+<button id="connectBtn" class="glass-button primary">Connect Fitness App</button>
+<button id="viewActivityBtn" class="glass-button secondary">View Activity</button>
+<button id="claimRewardsBtn" class="glass-button success">Claim Rewards</button>
+<button id="disconnectBtn" class="glass-button danger">Disconnect</button>
+<div id="status"></div>
+</div>
+
+<script>
+let tg = window.Telegram.WebApp;
+
+tg.expand();
+
+tg.MainButton.textColor = "#FFFFFF";
+tg.MainButton.color = "#2cab37";
+
+let connectBtn = document.getElementById("connectBtn");
+let viewActivityBtn = document.getElementById("viewActivityBtn");
+let claimRewardsBtn = document.getElementById("claimRewardsBtn");
+let disconnectBtn = document.getElementById("disconnectBtn");
+let statusDiv = document.getElementById("status");
+
+connectBtn.addEventListener("click", () => {
+statusDiv.innerHTML = "Connecting to Fitness App...";
+// Add your connection logic here
+});
+
+viewActivityBtn.addEventListener("click", () => {
+statusDiv.innerHTML = "Fetching activity data...";
+// Add your activity view logic here
+});
+
+claimRewardsBtn.addEventListener("click", () => {
+statusDiv.innerHTML = "Claiming rewards...";
+// Add your reward claiming logic here
+});
+
+disconnectBtn.addEventListener("click", () => {
+statusDiv.innerHTML = "Disconnecting...";
+// Add your disconnection logic here
+});
+
+Telegram.WebApp.onEvent("mainButtonClicked", function(){
+tg.sendData("some string that we need to send");
+//при клике на основную кнопку отправляем данные в строковом виде
+});
+
+let usercard = document.createElement("div");
+usercard.innerHTML = `<p>Hello, ${tg.initDataUnsafe.user.first_name} ${tg.initDataUnsafe.user.last_name}</p>`;
+document.body.appendChild(usercard);
+</script>
+</body>
+</html>
